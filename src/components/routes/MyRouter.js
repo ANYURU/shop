@@ -7,6 +7,7 @@ import Home from '../views/Home'
 import Login from '../views/Login'
 import Pay from '../views/Pay'
 import Shop from '../views/Shop'
+import NotFound from '../views/NotFound'
 
 import {
     BrowserRouter as Router, Switch, Route 
@@ -40,7 +41,10 @@ function MyRouter() {
                 </Route>
                 <Route path="/Shop">
                     <Shop />
-                </Route>                
+                </Route>   
+                <Route path="*">
+                    <NotFound />
+                </Route>             
             </Switch>
         </Router>
     )

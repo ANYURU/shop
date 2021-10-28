@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Accounts() {
+function Account() {
     return (
         <div>
             
@@ -8,4 +8,4 @@ function Accounts() {
     )
 }
 
-export default Accounts
+export default Account
