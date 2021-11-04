@@ -1,53 +1,55 @@
-import React from 'react'
-import Accounts from '../views/Accounts'
+import PublicRoute from './PublicRoute'
+import PrivateRoute  from './PrivateRoute'
+import NotLoggedIn from '../views/NotLoggedIn'
+import Login from '../views/Login'
+import Home from '../views/Home'
+import Account from '../views/Account'
 import Cart from '../views/Cart'
 import Checkout from '../views/Checkout'
 import Dashboard from '../views/Dashboard'
-import Home from '../views/Home'
-import Login from '../views/Login'
 import Pay from '../views/Pay'
-import Shop from '../views/Shop'
+import NotAuthorized from '../views/NotAuthorized'
 import NotFound from '../views/NotFound'
 
 import {
-    BrowserRouter as Router, Switch, Route 
+    BrowserRouter as Router,
+    Switch, Route
 } from 'react-router-dom'
 
-
 function MyRouter() {
+
     return (
         <Router>
             <Switch>
                 <Route path="/" exact>
                     <Home />
                 </Route>
-                <Route path="/Accounts">
-                    <Accounts />
-                </Route>
-                <Route path="/Cart">
-                    <Cart />
-                </Route>
-                <Route path="/Checkout">
-                    <Checkout />
-                </Route>
-                <Route path="/Dashboard">
-                    <Dashboard />
-                </Route>
-                <Route path="Login">
+                <Route path="/not-logged-in">
                     <Login />
                 </Route>
-                <Route path="Pay">
-                    <Pay />
+                <Route path="/login">
+                    <Login />
                 </Route>
-                <Route path="/Shop">
-                    <Shop />
-                </Route>   
+                <Route path="/cart">
+                    <Cart />
+                </Route>
+                <Route path="/checkout">
+                    <Checkout />
+                </Route>
+                <PrivateRoute path="/dashboard">
+                    <Dashboard />
+                </PrivateRoute>
+                <PrivateRoute path="/account">
+                    <Account />
+                </PrivateRoute>
+                <PrivateRoute path="/pay">
+                    <Pay />
+                </PrivateRoute>
                 <Route path="*">
                     <NotFound />
-                </Route>             
+                </Route>
             </Switch>
-        </Router>
+            </Router>
     )
 }
-
-export default MyRouter 
+export default MyRouter
