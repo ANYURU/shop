@@ -2,10 +2,11 @@ import React from 'react'
 
 function NotFound() {
     return (
-        <h1>
-            404 Resouce Not Found
-        </h1>
-    )
+        <div>
+            <h1> 404 </h1>
+            <p> Resouce Not Found </p>
+        </div>
+    )   
 }
 
 export default NotFound

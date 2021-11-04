@@ -1,6 +1,14 @@
 import React from 'react'
+import { useAuth } from '../contexts/Auth'
+import { Redirect } from 'react-router-dom'
 
 function Home() {
+    const { currentUser } = useAuth()
+    let formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'UGX',
+    });
+
     const inventoryItems =
     [
         {
@@ -24,30 +32,47 @@ function Home() {
             price: "15000"
         }
     ]
-
-
+    
+    if (currentUser) return ( <Redirect to={{ pathname: "/dashboard"}} /> ) 
+    
     return (
-        <>
-            <h1>Inventory</h1>
-            <ul>
-                {inventoryItems.map((inventoryItem) => {
+        <div>
+            <div className="header">
+                <h1>Shop Now</h1>
+                <div>
+                    <button>Basket</button>
+                </div>
+            </div>
+            
+            <ul className="item-list">
+                {
+                    inventoryItems.map((inventoryItem, index) => {
 
-                    
-                    return  <li>
-                                <div>{inventoryItem.name}</div>
-                                <div>{inventoryItem.category}</div>
-                                <div>{inventoryItem.price}</div>
+                        
+                        return  (
+                            <li key={index.toString()} classname="item">
                                 <div>
-                                    <button>Add to Cart</button>
-                                    <button>Remove from Cart</button>
-                                    <button>Buy Now</button>
-                                </div>    
+                                    {inventoryItem.name}
+                                </div>
+                                <div>
+                                    {inventoryItem.category}
+                                </div>
+                                <div>
+                                    {formatter.format(inventoryItem.price)}
+                                </div>   
+                                <div className="cta">
+                                    <button><span>Wishlist</span></button>
+                                    <button><span>Rate</span></button>
+                                    <button><span>Cart</span></button>
+                                    <button><span>Buy Now</span></button>                                    
+                                </div> 
                             </li>
-                })}
-            </ul>
-        </>
-
-        
+                        )  
+                                
+                    })
+                }
+            </ul>   
+        </div>        
     )
 }
 
