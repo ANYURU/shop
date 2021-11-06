@@ -23,7 +23,7 @@ body {
     display: flex;
     flex-direction: row;
     /* grid-template-columns: auto, 100px; */
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
     background: palevioletred;
