@@ -50,11 +50,11 @@ function Home() {
 
                         
                         return  (
-                            <li key={index.toString()} classname="item">
+                            <li key={index.toString()} className="item">
                                 <div>
                                     {inventoryItem.name}
                                 </div>
-                                <div>
+                                <div className="category">
                                     {inventoryItem.category}
                                 </div>
                                 <div>
