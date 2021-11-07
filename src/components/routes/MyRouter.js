@@ -22,7 +22,7 @@ function MyRouter() {
                 <Route path="/" exact>
                     <Home />
                 </Route>
-                <Route path="/not-authorized-in">
+                <Route path="/not-logged-in">
                     <NotLoggedIn/>
                 </Route>
                 <Route path="/login">
@@ -47,7 +47,7 @@ function MyRouter() {
                     <NotFound />
                 </Route>
             </Switch>
-            </Router>
+        </Router>
     )
 }
 export default MyRouter

@@ -4,7 +4,7 @@ import { useHistory, Redirect } from 'react-router-dom'
 
 function Login() {
     let [isLogin, setLogin] =useState(false)
-    let { setCurrentUser} = useAuth()
+    let { setCurrentUser } = useAuth()
     const history = useHistory()
 
     useEffect(( ) => {
@@ -14,14 +14,15 @@ function Login() {
             setLogin(loggedIn)
         }
     })
-    
+
     if(isLogin) return <Redirect to={{ pathname: '/dashboard'}}/>
     
     return (
         <div>
             <button onClick={() => {
                 setCurrentUser(1)
-                history.push('/dashboard')    
+                history.push('/dashboard')
+                localStorage.setItem('loggedIn', 1)   
             }}
             >Login
             </button>
