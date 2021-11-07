@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
     Route,
     Redirect
@@ -8,11 +7,6 @@ import { useAuth } from '../contexts/Auth'
 
 function PrivateRoute({children, ...rest}) {
     const { currentUser } = useAuth()
-
-    React.useEffect(() => {
-        console.log(currentUser)
-        console.log('Private Router')
-    },[])
 
     return (
         <Route
