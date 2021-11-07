@@ -13,7 +13,7 @@ function NotLoggedIn() {
         if ( loggedIn === 1) 
         setCurrentUser(loggedIn)
         setLogin(loggedIn)
-    }, [setCurrentUser])
+    })
 
     if (isLogin) 
         return <Redirect to={{pathname: `${history.location.state.from.pathname}`}} />
