@@ -22,7 +22,7 @@ function Login() {
             <button onClick={() => {
                 setCurrentUser(1)
                 history.push('/dashboard')
-                localStorage.setItem('loggedIn', 1)   
+                // localStorage.setItem('loggedIn', 1)   
             }}
             >Login
             </button>
