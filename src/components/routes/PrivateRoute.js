@@ -1,32 +1,27 @@
-import * as React from 'react'
 import {
-    Route,
+    Route, 
     Redirect
 } from 'react-router-dom'
 
-import { useAuth } from '../contexts/Auth'
+import { useAuth } from '../context/Auth'
 
-function PrivateRoute({children, ...rest}) {
-    const { currentUser } = useAuth()
+function PrivateRoute({children, ...rest}){
+    const {currentUser } = useAuth()
 
-    React.useEffect(() => {
-        console.log(currentUser)
-        console.log('Private Router')
-    },[])
 
     return (
-        <Route
-            {...rest}
-            render={({location}) => currentUser
-                    ? (children)
-                : (
-                    <Redirect
-                        to={{
+        <Route 
+            {...rest} 
+            render = {({location}) => currentUser 
+            ? (children) 
+            : (
+                <Redirect 
+                    to = {{
                             pathname: "/not-logged-in",
-                            state:{from:location}
-                        }}
-                    />
-                )
+                            state: {from: location}
+                        }} 
+                   />
+                )                    
             }
         />
     )
