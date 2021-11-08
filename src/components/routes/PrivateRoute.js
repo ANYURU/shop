@@ -6,7 +6,7 @@ import {
 import { useAuth } from '../context/Auth'
 
 function PrivateRoute({children, ...rest}){
-    const {currentUser } = useAuth()
+    const {currentUser} = useAuth()
 
 
     return (
