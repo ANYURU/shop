@@ -1,85 +1,71 @@
-import { useAuth } from '../contexts/Auth'
 import { useCart } from '../contexts/Cart'
 import { Link } from 'react-router-dom'
 
 function Home() {
-    const { currentUser } = useAuth()
-    const { itemsInCart, setItemsInCart } = useCart()
-
+    // const { currentUser } = useAuth()
+    const { itemsInCart, setItemsInCart }  = useCart()
     // const [itemsInCart, setItemsInCart] = useState([])
     let formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'UGX',
-    });
+      });
 
-    const inventoryItems =
-    [
+    const inventoryItems = [
         {
             _id: "xcsswewa12",
-            name: "Blue T-Shirt",
+            name: "Blue T-shirt",
             category: "All",
             price: 35000
         },
         {
             _id: "xcsswewa13",
-            name: "BlackShoes", 
+            name: "Black Shoes",
             category: "Men",
             price: 150000
         },
         {
             _id: "xcsswewa14",
-            name: "Macbook Air",
-            category: "Tech",
-            price: 4500000
+            name: "White Dress",
+            category: "Women",
+            price: 105000
         },
         {
             _id: "xcsswewa15",
-            name: "White Dress",
-            category: "Women",
-            price: "15000"
+            name: "Macbook Air",
+            category: "Tech",
+            price: 450000000
         }
     ]
+
     /**
      * 
-     * @param {string} inventory ItemID that they want to add to the cart
+     * @param {string} itemID The ID of the item in the inventory.
      */
-
     const addItemToCart = itemID => {
-        // setItemsInCart([...itmesInCart, inventoryItems[itemNumber]])
+        // setItemsInCart([...itemsInCart, inventoryItems[itemNumber] ])
         const filteredCartItems = itemsInCart.filter(itemInCart => itemInCart._id !== itemID)
-        let selectedItem = inventoryItems.filter(inventoryItem => inventoryItem._id === itemID)
-        
-        selectedItem[0]['qty'] = 1
-        setItemsInCart([...filteredCartItems, ...selectedItem])
+        let selectItem = inventoryItems.filter(theInventoryItem => theInventoryItem._id === itemID)
+        // setItemsInCart([...filteredCartItems, selectItem[0]])
+        selectItem[0]['qty'] = 1
+        setItemsInCart([...filteredCartItems, ...selectItem])
     }
-    
+
     /**
      * 
-     * @param {string} itemID 
-     * @returns {boolean} true if an Item with @param itemID is found in the cart and false otherwise.
+     * @param {string} itemID The ID of the item in the inventory
+     * @returns {boolean} 'true' if an item with the specified ID exists in the inventory and 'false' otherwise.
      */
-
     const isItemInCart = (itemID) => {
         const filteredCartItems = itemsInCart.filter(itemInCart => itemInCart._id === itemID)
-        return (filteredCartItems?.length > 0) ? true: false
-    
+        return (filteredCartItems?.length > 0) ? true : false
     }
-    
+
     return (
         <div>
-            <div className="header">
-                <h1>Shop Now</h1>
-                <div>
-                    <Link to="/cart">{itemsInCart?.length}Basket</Link>
-                </div>
-            </div>
-            
             <ul className="item-list">
                 {
                     inventoryItems.map((inventoryItem, index) => {
-
-                        
-                        return  (
+                        return (
                             <li key={index.toString()} className="item">
                                 <div>
                                     {inventoryItem.name}
@@ -89,7 +75,7 @@ function Home() {
                                 </div>
                                 <div>
                                     {formatter.format(inventoryItem.price)}
-                                </div>   
+                                </div>
                                 <div className="cta">
                                     <button><span>Wishlist</span></button>
                                     <button><span>Rate</span></button>
@@ -98,17 +84,15 @@ function Home() {
                                         <Link to="/cart">View Cart</Link>
                                         :
                                         <button onClick={() => addItemToCart(inventoryItem._id)}><span>Cart</span></button>
-                                        
                                     }
-                                    <button><span>Buy Now</span></button>                                    
-                                </div> 
+                                    <button><span>Buy Now</span></button>
+                                </div>
                             </li>
-                        )  
-                                
+                        )
                     })
                 }
-            </ul>   
-        </div>        
+            </ul>
+        </div>
     )
 }
 
