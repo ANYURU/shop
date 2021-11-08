@@ -41,7 +41,12 @@ function Cart() {
                                         onChange={event => {
                                             const item = itemsInCart[index]
 
-                                            // Question
+                                            // Question:
+                                            // Using the const keyword on a Javascript object becomes a bit confusing 
+                                            // — can the object's properties and methods be changed once defined ?
+                                            // Yes, properties and methods be changed for a const object.
+                                            // A const declaration does not mean that the value of the variable cannot be changed. It just means that the variable identifier cannot be reassigned.
+
                                             item.qty = Number(event.target.value)
                                             item['subtotal'] = Number(item.qty) * Number(item.price)
                                             itemsInCart[index] = item
