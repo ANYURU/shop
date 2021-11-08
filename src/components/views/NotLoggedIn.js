@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../contexts/Auth'
-import {Link, Redirect, useHistory} from 'react-router-dom'
+import { Link, Redirect, useHistory } from 'react-router-dom'
 import Loader from './uicomponents/Loader'
 function NotLoggedIn() {
     const [isLoading, setLoading] = useState(true)

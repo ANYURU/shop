@@ -1,5 +1,5 @@
 import PrivateRoute  from './PrivateRoute'
-import NotLoggedIn from '../views/Login'
+import NotLoggedIn from '../views/NotLoggedIn'
 import Login from '../views/Login'
 import Home from '../views/Home'
 import Account from '../views/Account'
@@ -23,7 +23,10 @@ function MyRouter() {
                 <Route path="/" exact>
                     <Home />
                 </Route>
-                <Route path="/not-authorized">
+                <Route path="/home" exact>
+                    <Home />
+                </Route>
+                <Route path="/not-logged-in">
                     <NotLoggedIn />
                 </Route>
                 <Route path="/login">

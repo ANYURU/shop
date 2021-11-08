@@ -1,7 +1,9 @@
+import { useAuth } from '../contexts/Auth'
 import { useCart } from '../contexts/Cart'
 import { Link } from 'react-router-dom'
 
 function Home() {
+    const { currentUser } = useAuth()
     const { itemsInCart, setItemsInCart } = useCart()
 
     // const [itemsInCart, setItemsInCart] = useState([])
