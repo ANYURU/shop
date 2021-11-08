@@ -24,17 +24,17 @@ function Home() {
             price: 150000
         },
         {
+            _id: "xcsswewa15",
+            name: "Macbook Air",
+            category: "Tech",
+            price: 4500000
+        },
+        {
             _id: "xcsswewa14",
             name: "White Dress",
             category: "Women",
             price: 105000
         },
-        {
-            _id: "xcsswewa15",
-            name: "Macbook Air",
-            category: "Tech",
-            price: 450000000
-        }
     ]
 
     /**
