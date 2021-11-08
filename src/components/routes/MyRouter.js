@@ -1,5 +1,4 @@
 import PrivateRoute  from './PrivateRoute'
-import PublicRoute from './PublicRoute'
 import NotLoggedIn from '../views/Login'
 import Login from '../views/Login'
 import Home from '../views/Home'
@@ -8,7 +7,7 @@ import Cart from '../views/Cart'
 import Checkout from '../views/Checkout'
 import Dashboard from '../views/Dashboard'
 import Pay from '../views/Pay'
-import NotAuthorized from '../views/NotAuthorized'
+// import NotAuthorized from '../views/NotAuthorized'
 import NotFound from '../views/NotFound'
 
 import {
