@@ -42,6 +42,7 @@ function Home() {
      * [x] Get items from the cart whose ID doesnot match the ID of the Item to be added to the Cart. 
      * [x] Select an item from the inventory that is to be added to the cart by ID.
      * [x] Give the selected item a default quantity value.
+     * [x] Give the selected item a default subtotal value 
      * [x] Update the Item in the cart.
      * 
      * @param {string} itemID The ID of the item in the inventory.
@@ -49,10 +50,12 @@ function Home() {
     const addItemToCart = itemID => {
         // setItemsInCart([...itemsInCart, inventoryItems[itemNumber] ])
         const filteredCartItems = itemsInCart.filter(itemInCart => itemInCart._id !== itemID)
-        let selectItem = inventoryItems.filter(theInventoryItem => theInventoryItem._id === itemID)
+        let [selectItem] = inventoryItems.filter(theInventoryItem => theInventoryItem._id === itemID)
         // setItemsInCart([...filteredCartItems, selectItem[0]])
-        selectItem[0]['qty'] = 1
-        setItemsInCart([...filteredCartItems, ...selectItem])
+        // selectItem[0]['qty'] = 1
+        selectItem['qty'] = 1
+        selectItem['subtotal'] = selectItem.price
+        setItemsInCart([...filteredCartItems, selectItem])
     }
 
     /**
