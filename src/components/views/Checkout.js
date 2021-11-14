@@ -4,21 +4,49 @@ import {useCart} from '../contexts/Cart'
 import Countries from '../helpers/countries.element'
 import USstates from '../helpers/USstates.element'
 import Districts from '../helpers/districts.element'
-import {ugandaShillings, currencyFormatter } from '../helpers/currency.formatter'
+import { currencyFormatter } from '../helpers/currency.formatter'
 
 function Checkout() {
     const { total } = useCart()
 
     const checkoutRef = useRef()
-    const handlePayment = () => {
+    /**
+     * @author Anyutu David Derrick
+     * @param {string} appliedVoucher Voucher code. 
+     * @returns {object} The object can have a msg, rate or the amount.
+     */
+
+    const getVoucherInfo = (appliedVoucher) => {
+        const theVoucher = vouchers[appliedVoucher]
+        if( theVoucher ) {
+            if(theVoucher.status !== 'expired')  {
+                if(!theVoucher.rate && !theVoucher.amount) return {msg: 'Invalid Voucher'}
+                return theVoucher?.amount ? {amount: theVoucher.amount} : {rate: theVoucher.rate}
+            }
+
+            return {msg: 'Expired Voucher'}               
+        }
+
+        return {msg: 'Invalid Voucher'}
     }
 
+    const handlePayment =  () => {
+
+    }
+    
     const [country, setCountry] = useState('Uganda')
     const [shipping, setShipping] = useState(0)
     const [tax, setTax] = useState(0)
     const [discount, setDiscount] = useState(0)
     const [voucher, setVoucher] = useState('')
-    const vouchers = ['10% off', '20% off', '30% off']
+
+    const vouchers = {
+        xxx:{rate:10, status:'active', amount:10000},
+        yyy:{rate: 15, status:'expired', amount:10000},
+        zzz:{rate:20, status:'active', amount:null},
+        ddd:{rate:25, status:'expired', amount:10000},
+        www:{rate:null, status:'active' , amount:10000}
+    }
 
     return (
         <div>
@@ -66,7 +94,6 @@ function Checkout() {
                                 <input type="text" placeholder="Town/Village"/>
                             </div>
                         </>
-                        
                         :
                         <>
                             <div>
@@ -100,7 +127,14 @@ function Checkout() {
                     <legend>Payment</legend>
                     <div>
                         <label>Voucher</label>
-                        <input type="text" placeholder="VoucherCode"/>
+                        <input type="text" placeholder="VoucherCode" onBlur={(event)=> { 
+                            const voucherInfo = getVoucherInfo(event.target.value)
+                            if(voucherInfo?.msg ){
+                                event.target.value = voucherInfo.message;
+                            } else {
+                                voucherInfo.amount ? setDiscount(voucherInfo.amount) : setDiscount((voucherInfo.rate / 100) * total)
+                            }
+                        }}/> 
                     </div>
                     <label>MoMO/MobileMoney <input type="radio" name="payment-method" value="momo"/></label>
                     <label>Airtel <input type="radio" name="payment-method" value="airtel"/></label>
