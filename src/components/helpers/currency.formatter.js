@@ -18,5 +18,4 @@ export const currencyFormatter = (amount, countryCode='UGX', languageCode='en-US
     })
 
     return formatter.format(amount)
-
 }

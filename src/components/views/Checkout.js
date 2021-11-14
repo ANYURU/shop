@@ -7,9 +7,24 @@ import Districts from '../helpers/districts.element'
 import { currencyFormatter } from '../helpers/currency.formatter'
 
 function Checkout() {
-    const { total } = useCart()
-
     const checkoutRef = useRef()
+    const { total } = useCart()
+    const [country, setCountry] = useState('Uganda')
+    const [shipping, setShipping] = useState(0)
+    const [tax, setTax] = useState(0)
+    const [discount, setDiscount] = useState(0)
+
+    const vouchers = {
+        xxx:{rate:10, status:'active', amount:10000},
+        yyy:{rate: 15, status:'expired', amount:10000},
+        zzz:{rate:20, status:'active', amount:null},
+        ddd:{rate:25, status:'expired', amount:10000},
+        www:{rate:null, status:'active', amount:10000},
+        nnn:{rate:null, status:'active', amount:null}
+    }
+    
+
+    
     /**
      * @author Anyutu David Derrick
      * @param {string} appliedVoucher Voucher code. 
@@ -20,8 +35,10 @@ function Checkout() {
         const theVoucher = vouchers[appliedVoucher]
         if( theVoucher ) {
             if(theVoucher.status !== 'expired')  {
-                if(!theVoucher.rate && !theVoucher.amount) return {msg: 'Invalid Voucher'}
-                return theVoucher?.amount ? {amount: theVoucher.amount} : {rate: theVoucher.rate}
+                if(!theVoucher.rate && !theVoucher.amount) {
+                    return {msg: 'Invalid Voucher'}
+                }
+                return theVoucher?.amount > 0 ? {amount: theVoucher.amount} : {rate: theVoucher.rate}
             }
 
             return {msg: 'Expired Voucher'}               
@@ -33,21 +50,7 @@ function Checkout() {
     const handlePayment =  () => {
 
     }
-    
-    const [country, setCountry] = useState('Uganda')
-    const [shipping, setShipping] = useState(0)
-    const [tax, setTax] = useState(0)
-    const [discount, setDiscount] = useState(0)
-    const [voucher, setVoucher] = useState('')
-
-    const vouchers = {
-        xxx:{rate:10, status:'active', amount:10000},
-        yyy:{rate: 15, status:'expired', amount:10000},
-        zzz:{rate:20, status:'active', amount:null},
-        ddd:{rate:25, status:'expired', amount:10000},
-        www:{rate:null, status:'active' , amount:10000}
-    }
-
+        
     return (
         <div>
             Checkout      
@@ -119,7 +122,7 @@ function Checkout() {
                     <p>Shipping {shipping}</p>
                     <p>Discount {discount}</p>
                     <p>Tax {tax}</p>
-                    <p>Total {currencyFormatter((total + shipping + tax - discount), 'USD', 'en-US')}</p>
+                    <p>Total {currencyFormatter((total + shipping + tax - discount), 'UGX', 'en-US')}</p>
                 </fieldset>
                 
 
@@ -127,10 +130,10 @@ function Checkout() {
                     <legend>Payment</legend>
                     <div>
                         <label>Voucher</label>
-                        <input type="text" placeholder="VoucherCode" onBlur={(event)=> { 
+                        <input type="text" placeholder="Voucher code" onBlur={(event)=> { 
                             const voucherInfo = getVoucherInfo(event.target.value)
                             if(voucherInfo?.msg ){
-                                event.target.value = voucherInfo.message;
+                                event.target.value = voucherInfo.msg;
                             } else {
                                 voucherInfo.amount ? setDiscount(voucherInfo.amount) : setDiscount((voucherInfo.rate / 100) * total)
                             }
@@ -141,7 +144,6 @@ function Checkout() {
                 </fieldset>
                 <button type="submit" onClick={handlePayment}>Pay Now</button>
             </form>
-
         </div>
         
     )
