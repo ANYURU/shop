@@ -5,7 +5,7 @@ import Countries from '../helpers/countries.element'
 import USstates from '../helpers/USstates.element'
 import Districts from '../helpers/districts.element'
 import { currencyFormatter } from '../helpers/currency.formatter'
-import { Zones } from  '../helpers/shipping'
+import { zones, getCountryZone } from  '../helpers/shipping'
 
 function Checkout() {
     const checkoutRef = useRef()
@@ -87,7 +87,7 @@ function Checkout() {
                         <label>Country<span className="required-label">*</span></label>
                         <Countries  onChange={(event)=> {                            
                             setCountry(event.target.value)
-                             
+                            setZone(event.target.value)
                             
                             }} id="country"/>
 
@@ -122,6 +122,14 @@ function Checkout() {
                         </>                    
                     }
     
+                </fieldset>
+                <fieldset>
+                    {zone && 
+                        <fieldset>
+                            <legend>Shipping methods</legend>
+                            
+                        </fieldset>
+                    }
                 </fieldset>
  
                 <fieldset>
