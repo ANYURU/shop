@@ -1,6 +1,9 @@
-export default function Countries (props) {
+// export default function Countries (props) {
+export default function Countries (id) {
+
     return (
-        <select {...props}>
+        // <select {...props}>
+        <select id={id}>
             <option>- Select country -</option>
             <option value="Afghanistan">Afghanistan</option>
             <option value="Aland Islands">Aland Islands</option>

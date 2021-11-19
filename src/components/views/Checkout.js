@@ -5,6 +5,7 @@ import Countries from '../helpers/countries.element'
 import USstates from '../helpers/USstates.element'
 import Districts from '../helpers/districts.element'
 import { currencyFormatter } from '../helpers/currency.formatter'
+import { Zones } from  '../helpers/shipping'
 
 function Checkout() {
     const checkoutRef = useRef()
@@ -13,12 +14,13 @@ function Checkout() {
     const [shipping, setShipping] = useState(0)
     const [tax, setTax] = useState(0)
     const [discount, setDiscount] = useState(0)
+    const [zone, setZone] = useState({})
 
     const vouchers = {
-        xxx:{rate:10, status:'active', amount:10000},
+        xxx:{rate:10, status:'active', amount:8000},
         yyy:{rate: 15, status:'expired', amount:10000},
         zzz:{rate:20, status:'active', amount:null},
-        ddd:{rate:25, status:'expired', amount:10000},
+        ddd:{rate:25, status:'expired', amount:6000},
         www:{rate:null, status:'active', amount:10000},
         nnn:{rate:null, status:'active', amount:null}
     }
@@ -26,7 +28,7 @@ function Checkout() {
 
     
     /**
-     * @author Anyutu David Derrick
+     * @author Anyuru David Derrick
      * @param {string} appliedVoucher Voucher code. 
      * @returns {object} The object can have a msg, rate or the amount.
      */
@@ -83,8 +85,14 @@ function Checkout() {
                     </div>
                     <div>
                         <label>Country<span className="required-label">*</span></label>
-                        <Countries  onChange={(event)=>setCountry(event.target.value)} id="country"/>
+                        <Countries  onChange={(event)=> {                            
+                            setCountry(event.target.value)
+                             
+                            
+                            }} id="country"/>
+
                     </div>
+
                     {
                         country === 'Uganda' ? 
                         <>
@@ -150,3 +158,4 @@ function Checkout() {
 }
 
 export default Checkout
+

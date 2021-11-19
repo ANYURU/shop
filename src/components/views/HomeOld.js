@@ -8,40 +8,35 @@ function HomeOld() {
         currency: 'UGX',
       });
 
-    const inventoryItems = [
-        {
-            _id: "xcsswewa12",
+    const inventoryItems = {
+        xcsswewa12 : {
             name: "Blue T-shirt",
             category: "All",
             price: 35000
         },
-        {
-            _id: "xcsswewa13",
+        xcsswewa13 : {
             name: "Black Shoes",
             category: "Men",
             price: 150000
         },
-        {
-            _id: "xcsswewa14",
+        xcsswewa14 : {
             name: "White Dress",
             category: "Women",
             price: 105000
         },
-        {
-            _id: "xcsswewa15",
+        xcsswewa15 : {
             name: "Macbook Air",
             category: "Tech",
             price: 450000000
         }
-    ]
+    }
 
     const addItemToCart = itemID => {
-        // setItemsInCart([...itemsInCart, inventoryItems[itemNumber] ])
-        const filteredCartItems = itemsInCart.filter(itemInCart => itemInCart._id !== itemID)
-        let selectItem = inventoryItems.filter(theInventoryItem => theInventoryItem._id === itemID)
-        // setItemsInCart([...filteredCartItems, selectItem[0]])
-        selectItem[0]['qty'] = 1
-        setItemsInCart([...filteredCartItems, ...selectItem])
+        inventoryItems.itemID['qty'] = 1
+        if(!itemsInCart.itemID){
+            itemsInCart.push(inventoryItems[itemID])
+        }
+        setItemsInCart()
     }
 
     const isItemInCart = (itemID) => {
