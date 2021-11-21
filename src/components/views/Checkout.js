@@ -1,11 +1,11 @@
 import {useRef, useState} from 'react'
-import {useCart} from '../contexts/Cart'
-
+import { useCart } from '../contexts/Cart'
 import Countries from '../helpers/countries.element'
-import USstates from '../helpers/USstates.element'
 import Districts from '../helpers/districts.element'
-import { currencyFormatter } from '../helpers/currency.formatter'
-import { zones, getCountryZone } from  '../helpers/shipping'
+import USstates from '../helpers/USstates.element'
+import {getCountryZone} from '../helpers/shipping'
+
+import {currencyFormatter, ugandaShillings} from '../helpers/currency.formatter'
 
 function Checkout() {
     const checkoutRef = useRef()
@@ -14,103 +14,90 @@ function Checkout() {
     const [shipping, setShipping] = useState(0)
     const [tax, setTax] = useState(0)
     const [discount, setDiscount] = useState(0)
-    const [zone, setZone] = useState({})
-
+    const [zone, setZone] = useState(null)
     const vouchers = {
-        xxx:{rate:10, status:'active', amount:8000},
-        yyy:{rate: 15, status:'expired', amount:10000},
-        zzz:{rate:20, status:'active', amount:null},
-        ddd:{rate:25, status:'expired', amount:6000},
-        www:{rate:null, status:'active', amount:10000},
-        nnn:{rate:null, status:'active', amount:null}
+        aaa: { rate: 10, status: 'active', amount: 10000 },
+        bbb: { rate: 20, status: 'expired', amount: 10000 },
+        ccc: { rate: 30, status: 'active', amount: null },
+        ddd: { rate: null, status: 'active', amount: null },
+        eee: { rate: null, status: 'active', amount: 17000 },
     }
-    
-
-    
-    /**
-     * @author Anyuru David Derrick
-     * @param {string} appliedVoucher Voucher code. 
-     * @returns {object} The object can have a msg, rate or the amount.
-     */
-
+    const handlePayment = () => {
+    }
     const getVoucherInfo = (appliedVoucher) => {
-        const theVoucher = vouchers[appliedVoucher]
-        if( theVoucher ) {
-            if(theVoucher.status !== 'expired')  {
-                if(!theVoucher.rate && !theVoucher.amount) {
-                    return {msg: 'Invalid Voucher'}
+        let theVoucher = vouchers[appliedVoucher]
+        if (theVoucher) {
+            if (theVoucher.status !== 'expired') {
+                if (!theVoucher.rate && !theVoucher.amount) {
+                    return {msg: 'Invalid voucher'}
                 }
-                return theVoucher?.amount > 0 ? {amount: theVoucher.amount} : {rate: theVoucher.rate}
+                return theVoucher?.amount > 0 ? { amount: theVoucher.amount } : { rate: theVoucher.rate }
             }
-
-            return {msg: 'Expired Voucher'}               
+            return {msg: 'Expired voucher'}
         }
-
-        return {msg: 'Invalid Voucher'}
+        return {msg:'Invalid voucher'}
     }
 
-    const handlePayment =  () => {
-
-    }
-        
     return (
         <div>
-            Checkout      
-
-            <form ref = {checkoutRef}>
+            <h1>Checkout</h1>
+            <form ref={checkoutRef} method="post">
                 <fieldset>
-                    <legend>Billing Info</legend>
+                    <legend>Billing info</legend>
                     <div>
-                        <label>First name</label>
-                        <input type="text" placeholder="First name"/>
+                        <label>Name</label>
+                        <input type="text" placeholder="Name" />
                     </div>
                 </fieldset>
                 <fieldset>
                     <legend>Shipping info</legend>
                     <div>
-                        <label>Name<span className="required-label">*</span></label>
-                        <input type="text"required  placeholder="Name"/>
+                        <label>Name <span class="required-label">*</span></label>
+                        <input type="text" required placeholder="Name" />
                     </div>
                     <div>
-                        <label>Company (Optional)</label>
-                        <input type="text"required  placeholder="Company"/>
+                        <label>Company (optional)</label>
+                        <input type="text" placeholder="Company" />
                     </div>
                     <div>
-                        <label>Address line 1: <span className="required-label">*</span></label>
-                        <input type="text" placeholder="Ex. Suite no, Apt.No, Plot No., Rd."/>
+                        <label>Address line 1: <span class="required-label">*</span></label>
+                        <input type="text" required placeholder="Ex. Suite no. Apt.No, Plot No., Rd." />
                     </div>
                     <div>
                         <label>Address line 2: </label>
-                        <input type="text" placeholder="State, Zip, Code, Town."/>
+                        <input type="text" placeholder="State, zip code, town" />
                     </div>
+
                     <div>
-                        <label>Country<span className="required-label">*</span></label>
-                        <Countries  onChange={(event)=> {                            
+                        <label>Country <span class="required-label">*</span></label>
+                        <Countries onChange={(event) => {
+                            setShipping(0)
                             setCountry(event.target.value)
-                            setZone(event.target.value)
-                            
-                            }} id="country"/>
-
+                            setZone(getCountryZone(event.target.value))
+                        }} required id="country" />
                     </div>
-
-                    {
-                        country === 'Uganda' ? 
+                    {country === 'Uganda' ?
                         <>
                             <div>
-                                <label>District</label>
+                                <label>District <span class="required-label">*</span></label>
                                 <Districts id="district"/>
                             </div>
                             <div>
-                                <label>Town/Village</label>
-                                <input type="text" placeholder="Town/Village"/>
+                                <label>Town/Village </label>
+                                <input type="text" placeholder="Town/Village" />
                             </div>
                         </>
                         :
                         <>
+                            {country === 'United States' ? <div>
+                                <label>State <span class="required-label">*</span></label>
+                                <USstates id="us_state" />
+                            </div> :
                             <div>
-                                <label>State<span className="required-label">*</span></label>
-                                <USstates id="state"/>
+                                <label>State <span class="required-label">*</span></label>
+                                <input type="text" required placeholder="State" />
                             </div>
+                            }
                             <div>
                                 <label>Town/City</label>
                                 <input type="text" placeholder="Town/City"/>
@@ -119,51 +106,75 @@ function Checkout() {
                                 <label>Zip code/Postal code</label>
                                 <input type="text" placeholder="Postal Code"/>
                             </div>
-                        </>                    
+                        </>
                     }
-    
+
                 </fieldset>
-                <fieldset>
-                    {zone && 
-                        <fieldset>
-                            <legend>Shipping methods</legend>
-                            
-                        </fieldset>
-                    }
-                </fieldset>
- 
+                {zone?.error
+                    ?
+                    <div>{zone.error}</div>
+                    :
+                    <fieldset>
+                    <legend>Shipping methods</legend>
+                    {zone && zone.map(theCompany =>
+                            <div key={theCompany.company.toLocaleLowerCase()}>
+                                <h1>{theCompany.company}</h1>
+                            {
+                                theCompany.classes.map(companyClass =>
+                                    <div key={`${theCompany.company}_${companyClass.label}`}>
+                                        <input
+
+                                            onChange={(event) => {
+                                                setShipping(Number(event.target.getAttribute('data-cost')))
+                                            }}
+
+                                            id={`${theCompany.company} ${companyClass.label}`}
+                                            type="radio"
+                                            name="shipping_class"
+                                            value={`${theCompany.company} ${companyClass.label}`}
+                                            data-cost={companyClass.cost}
+                                        />
+                                        <label htmlFor={
+                                            `${theCompany.company} ${companyClass.label}`
+                                        }>{`${companyClass.label} ${companyClass.cost}`}
+                                        </label>
+                                    </div>
+                            ) }
+                            </div>
+                    )}
+                    </fieldset>
+                }
                 <fieldset>
                     <legend>Cart Details</legend>
-                    {/* <p>Subtotal {total}</p> */}
+                    <p>Subtotal {ugandaShillings.format(total)}</p>
                     <p>Shipping {shipping}</p>
                     <p>Discount {discount}</p>
                     <p>Tax {tax}</p>
-                    <p>Total {currencyFormatter((total + shipping + tax - discount), 'UGX', 'en-US')}</p>
+                    <p>Total {currencyFormatter((total + shipping + tax - discount))}</p>
                 </fieldset>
-                
 
                 <fieldset>
                     <legend>Payment</legend>
                     <div>
-                        <label>Voucher</label>
-                        <input type="text" placeholder="Voucher code" onBlur={(event)=> { 
-                            const voucherInfo = getVoucherInfo(event.target.value)
-                            if(voucherInfo?.msg ){
-                                event.target.value = voucherInfo.msg;
+                        <label>Voucher code</label>
+                        <input type="text" placeholder="Voucher code" onBlur={event => {
+                            let voucherInfo = getVoucherInfo(event.target.value)
+                            if (voucherInfo?.msg) {
+                                event.target.value = voucherInfo.msg
                             } else {
-                                voucherInfo.amount ? setDiscount(voucherInfo.amount) : setDiscount((voucherInfo.rate / 100) * total)
+                                voucherInfo?.amount ? setDiscount(voucherInfo.amount):  setDiscount((voucherInfo.rate/100) * total)
                             }
-                        }}/> 
+                        }}/>
                     </div>
-                    <label>MoMO/MobileMoney <input type="radio" name="payment-method" value="momo"/></label>
-                    <label>Airtel <input type="radio" name="payment-method" value="airtel"/></label>
+                    <label>
+                        MoMO/MobileMoney <input type="radio" name="payment_method" value="momo" />
+                    </label>
+                    <label>Airtel <input type="radio"  name="payment_method" value="airtel" /></label>
                 </fieldset>
                 <button type="submit" onClick={handlePayment}>Pay Now</button>
             </form>
         </div>
-        
     )
 }
 
 export default Checkout
-
